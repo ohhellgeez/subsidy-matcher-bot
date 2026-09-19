@@ -64,6 +64,7 @@
 │       ├── client.py      # MaxClient (HTTP-методы API)
 │       ├── models.py      # Update/Message/User/Button/клавиатура
 │       └── errors.py      # исключения коннектора
+├── certs/                 # сертификаты Минцифры (для TLS к platform-api2.max.ru)
 ├── Dockerfile
 ├── compose.yaml
 ├── requirements.txt
@@ -90,6 +91,19 @@
 
 Полная документация: <https://dev.max.ru/docs-api>
 
+## Сертификаты Минцифры (TLS)
+
+API МАХ использует сертификаты **Минцифры России** (`Russian Trusted Root CA` /
+`Russian Trusted Sub CA`), которых нет в стандартном CA-бандле. Поэтому:
+
+- **В Docker** — решается автоматически: `Dockerfile` добавляет
+  `certs/mincifry_ca.pem` в CA-бандл `certifi`.
+- **Локально (без Docker)** — укажите бандл в `.env`:
+  `MAX_CA_BUNDLE=./certs/mincifry_ca.pem`.
+
+Сертификаты лежат в `certs/` (получены из цепочки `platform-api2.max.ru` и
+официального CDP Минцифры `nuc-cdp.digital.gov.ru`).
+
 ## Переменные окружения
 
 Скопируйте шаблон и заполните токен:
@@ -103,6 +117,7 @@ cp .env.example .env
 | --- | --- | --- |
 | `MAX_BOT_TOKEN` | Токен бота МАХ (обязателен) | — |
 | `MAX_BASE_URL` | Базовый домен API | `https://platform-api2.max.ru` |
+| `MAX_CA_BUNDLE` | CA-бандл для локального запуска (сертификаты Минцифры) | — |
 | `BOT_MODE` | `polling` или `webhook` | `polling` |
 | `POLLING_TIMEOUT` / `POLLING_LIMIT` | Параметры long polling | `30` / `100` |
 | `POLLING_EVENT_TYPES` | Типы событий через запятую (пусто = все) | — |

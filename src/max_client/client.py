@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import logging
 import time
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
 import requests
 
@@ -40,6 +40,7 @@ class MaxClient:
         token: str,
         base_url: str = "https://platform-api2.max.ru",
         timeout: int = 30,
+        verify: Union[bool, str] = True,
     ) -> None:
         if not token:
             raise ValueError("token не может быть пустым")
@@ -47,6 +48,9 @@ class MaxClient:
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self._session = requests.Session()
+        # Платформа МАХ использует сертификаты Минцифры; при необходимости
+        # сюда передаётся путь к CA-бандлу (см. MAX_CA_BUNDLE в .env).
+        self._session.verify = verify
         self._session.headers.update(
             {
                 "Authorization": token,

@@ -30,6 +30,7 @@ def build_client(settings: Settings) -> MaxClient:
         settings.max_bot_token,
         base_url=settings.max_base_url,
         timeout=settings.max_request_timeout,
+        verify=settings.max_ca_bundle or True,
     )
 
 

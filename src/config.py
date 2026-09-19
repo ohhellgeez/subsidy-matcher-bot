@@ -34,6 +34,7 @@ class Settings:
     max_bot_token: str = ""
     max_base_url: str = DEFAULT_BASE_URL
     max_request_timeout: int = 30
+    max_ca_bundle: str = ""
 
     # --- Режим доставки: "polling" | "webhook" ---
     mode: str = "polling"
@@ -84,6 +85,7 @@ class Settings:
             max_bot_token=os.getenv("MAX_BOT_TOKEN", "").strip(),
             max_base_url=os.getenv("MAX_BASE_URL", DEFAULT_BASE_URL).rstrip("/"),
             max_request_timeout=_env_int("MAX_REQUEST_TIMEOUT", 30),
+            max_ca_bundle=os.getenv("MAX_CA_BUNDLE", "").strip(),
             mode=os.getenv("BOT_MODE", "polling").strip().lower(),
             polling_timeout=_env_int("POLLING_TIMEOUT", 30),
             polling_limit=_env_int("POLLING_LIMIT", 100),

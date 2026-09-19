@@ -11,6 +11,11 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src/ ./src/
+COPY certs/mincifry_ca.pem ./certs/mincifry_ca.pem
+
+# Платформа МАХ использует сертификаты Минцифры — добавляем их в CA-бандл
+# certifi, чтобы requests доверял platform-api2.max.ru без доп. настроек.
+RUN python -c "import certifi, pathlib; b = pathlib.Path(certifi.where()); b.write_text(b.read_text() + '\n' + pathlib.Path('/app/certs/mincifry_ca.pem').read_text())"
 
 # Порт используется только в режиме BOT_MODE=webhook.
 EXPOSE 8000

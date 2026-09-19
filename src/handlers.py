@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 
 from .config import Settings
@@ -21,6 +22,9 @@ _WELCOME_TEXT = (
     "Я задам несколько коротких вопросов (регион, форма бизнеса, отрасль, "
     "наличие сотрудников) и покажу подходящие субсидии, гранты и льготы."
 )
+
+# Кнопка запуска анкеты (показывается на старте и на любое текстовое сообщение).
+_START_ROWS = [[Button.callback("Начать подбор", "start_questionnaire")]]
 
 
 class BotHandler:
@@ -47,8 +51,7 @@ class BotHandler:
         if user_id is None:
             logger.warning("bot_started без user_id")
             return
-        rows = [[Button.callback("Начать подбор", "start_questionnaire")]]
-        self.client.send_keyboard(user_id, _WELCOME_TEXT, rows)
+        self.client.send_keyboard(user_id, _WELCOME_TEXT, _START_ROWS)
 
     def _on_message(self, update: Update) -> None:
         user_id = update.user_id
@@ -58,17 +61,25 @@ class BotHandler:
         text = update.text or ""
         logger.info("Сообщение от %s: %r", user_id, text)
 
-        # TODO(Роль 4 — Bot Flow & FSM): здесь подключается стейт-машина
-        # (Redis) и движок сопоставления (Роль 3). Пока — безопасный эхо-ответ,
-        # чтобы бот был рабочим на всех этапах разработки.
-        self.client.send_text(user_id, f"Получено: {text}")
+        # TODO(Роль 4 — Bot Flow & FSM): здесь подключается стейт-машина (Redis)
+        # и движок сопоставления (Роль 3). Пока возвращаем приветствие с кнопкой.
+        self.client.send_keyboard(user_id, _WELCOME_TEXT, _START_ROWS)
 
     def _on_callback(self, update: Update) -> None:
-        if update.callback is None:
-            logger.warning("message_callback без callback")
+        logger.info("Callback raw: %s", json.dumps(update.raw, ensure_ascii=False))
+        if update.callback is None or update.user_id is None:
+            logger.warning("message_callback без callback/user")
             return
-        payload = update.callback.callback_id
-        logger.info("Callback %s (user_id=%s)", payload, update.user_id)
+        payload = update.callback.payload or update.callback.callback_id
+        logger.info("Callback payload=%r user_id=%s", payload, update.user_id)
 
+        # ВАЖНО: не используем answer_callback с `message`, т.к. это заменяет
+        # исходное сообщение (и кнопку). Отправляем НОВОЕ сообщение.
         # TODO(Роль 4): маршрутизация ответов кнопок анкеты.
-        self.client.answer_callback(payload, text=f"Вы нажали: {payload}")
+        if payload == "start_questionnaire":
+            rows = [
+                [Button.callback("Регион А", "region=A"), Button.callback("Регион Б", "region=B")],
+            ]
+            self.client.send_keyboard(update.user_id, "Вопрос 1/4: выберите регион", rows)
+        else:
+            self.client.send_text(update.user_id, f"Вы нажали: {payload}")

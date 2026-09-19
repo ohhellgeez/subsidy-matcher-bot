@@ -68,15 +68,26 @@ class Message:
 
 @dataclass
 class Callback:
-    """Нажатие кнопки (вложенный объект ``callback`` события ``message_callback``)."""
+    """Нажатие кнопки (вложенный объект ``callback`` события ``message_callback``).
 
-    callback_id: str
+    ``callback_id`` — служебный идентификатор для ответа через ``POST /answers``.
+    ``payload`` — бизнес-данные, заданные в кнопке при отправке.
+    ``user`` — пользователь, нажавший кнопку.
+    """
+
+    callback_id: str = ""
+    payload: Optional[str] = None
+    user: Optional["User"] = None
 
     @classmethod
     def from_dict(cls, data: Optional[dict[str, Any]]) -> Optional["Callback"]:
         if not data:
             return None
-        return cls(callback_id=str(data.get("callback_id") or ""))
+        return cls(
+            callback_id=str(data.get("callback_id") or ""),
+            payload=data.get("payload"),
+            user=User.from_dict(data.get("user")),
+        )
 
 
 @dataclass
@@ -118,9 +129,15 @@ class Update:
 
     @property
     def user_id(self) -> Optional[int]:
-        """Идентификатор пользователя, инициировавшего событие."""
+        """Идентификатор пользователя, инициировавшего событие.
+
+        Для ``message_callback`` пользователь лежит в ``callback.user``
+        (верхнеуровневого ``user`` в таких событиях нет).
+        """
         if self.user is not None:
             return self.user.user_id
+        if self.callback is not None and self.callback.user is not None:
+            return self.callback.user.user_id
         if self.message is not None and self.message.sender is not None:
             return self.message.sender.user_id
         return None

@@ -80,7 +80,9 @@
   `text`, `attachments` (inline-клавиатура), `notify`, `format` (`markdown`/`html`).
 - **Кнопки:** `attachments: [{type: "inline_keyboard", payload: {buttons: [[{type,text,payload|url}]]}}]`.
   Типы: `callback` (с `payload`), `link` (с `url`), `message`, `clipboard`, `request_contact`, `request_geo_location`, `open_app`.
-- **Callback:** `POST /answers?callback_id={id}`; событие `message_callback` несёт `callback.callback_id`.
+- **Callback:** `POST /answers?callback_id={id}`. Событие `message_callback` содержит объект `callback`
+  с полями: `callback_id` (служебный id для `POST /answers`), `payload` (данные, заданные в кнопке)
+  и `user` (кто нажал). Верхнеуровневого `user` в таких событиях нет — пользователь лежит в `callback.user`.
 - **Получение событий (взаимоисключающие режимы):**
   - Long Polling — `GET /updates?marker=&limit=&timeout=&types=` → `{updates: Update[], marker}`.
   - Webhook — `POST /subscriptions` (`url`, `update_types`, `secret`); события приходят HTTPS POST

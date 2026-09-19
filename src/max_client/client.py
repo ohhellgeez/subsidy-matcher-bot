@@ -69,11 +69,16 @@ class MaxClient:
         *,
         params: Optional[dict[str, Any]] = None,
         json: Optional[dict[str, Any]] = None,
+        request_timeout: Optional[int] = None,
     ) -> Any:
         url = f"{self.base_url}{path}"
         try:
             response = self._session.request(
-                method, url, params=params, json=json, timeout=self.timeout
+                method,
+                url,
+                params=params,
+                json=json,
+                timeout=request_timeout if request_timeout is not None else self.timeout,
             )
         except requests.RequestException as exc:
             raise MaxConnectionError(f"Сетевая ошибка при запросе {method} {path}: {exc}", exc) from exc
@@ -225,7 +230,14 @@ class MaxClient:
         if types:
             params["types"] = ",".join(types)
 
-        data = self._request("GET", "/updates", params=params)
+        data = self._request(
+            "GET",
+            "/updates",
+            params=params,
+            # Клиентский таймаут должен быть больше серверного (timeout) + запас,
+            # иначе пустой long poll будет обрываться по "Read timed out".
+            request_timeout=timeout + 10,
+        )
         if not isinstance(data, dict):
             return [], marker
         updates = [

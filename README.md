@@ -184,7 +184,7 @@ docker compose down -v       # остановить и удалить тома (
 | --- | --- |
 | Репозиторий (Git) | <https://github.com/ohhellgeez/subsidy-matcher-bot> |
 | Ветка | `feature/core-api-devops` |
-| Коммит | `ce57bfbaff8c3bc1f607eaa8f6ca62b673fdbdab` |
+| Коммит | `2fb95cc56133419dded6b7bc3d9233d5f47a5e4a` |
 | Токен бота | в `.env` → `MAX_BOT_TOKEN` (не публикуется в репозитории) |
 | Базовый URL API | `https://platform-api2.max.ru` |
 | Сборка | `docker compose up --build` (< 5 мин) |

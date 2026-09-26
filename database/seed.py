@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from models import Region, Company, SupportMeasure, MeasureRequirement, Document
 
-DATABASE_URL = "postgresql+psycopg2://postgres:qweeWeWe5W@localhost:5433/MAX"
+DATABASE_URL = "postgresql+psycopg2://postgres:password@localhost:5432/MAX"
 
 engine = create_engine(DATABASE_URL)
 

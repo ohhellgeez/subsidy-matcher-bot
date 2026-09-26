@@ -1,0 +1,48 @@
+[
+    {
+        "id": "meas-001",
+        "name": "Грант на развитие ИТ-проектов",
+        "preview": "До 5 млн рублей на разработку ПО",
+        "short_description": "Федеральная поддержка аккредитованных ИТ-компаний.",
+        "support_amount_from": 1000000,
+        "support_amount_till": 5000000,
+        "requirements": {
+            "opf": "legal",
+            "okwed": "62.01, 62.02",
+            "min_empl_amount": 5,
+            "max_empl_amount": 100,
+            "min_exist_term": 12,
+            "okato": "0"
+        },
+        "documents": [
+            {
+                "link": "https://msp.ru/docs/it_rules.pdf",
+                "type": "pdf",
+                "size": 2500.5,
+                "name": "Положение о гранте"
+            }
+        ]
+    },
+    {
+        "id": "meas-002",
+        "name": "Субсидия на покупку сельхозтехники",
+        "preview": "Компенсация до 50% затрат",
+        "short_description": "Региональная мера поддержки аграриев Алтайского края.",
+        "support_amount_from": 500000,
+        "support_amount_till": 2000000,
+        "requirements": {
+            "opf": "legal, individual",
+            "okwed": "01.11, 01.13",
+            "min_exist_term": 24,
+            "okato": "01000000000"
+        },
+        "documents": [
+            {
+                "link": "https://msp.ru/docs/agro_altai.docx",
+                "type": "docx",
+                "size": 1024.0,
+                "name": "Форма заявки на субсидию"
+            }
+        ]
+    }
+]

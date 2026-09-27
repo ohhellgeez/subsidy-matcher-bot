@@ -5,7 +5,7 @@ from .catalog import REGION_NAMES
 from .db import get_session
 from ..database.models import Company, Region
 
-NAME_PATTERN = re.compile(r"^[A-Za-zРђ-РЇР°-СЏРЃС‘\- ]{2,40}$")
+NAME_PATTERN = re.compile(r"^[A-Za-zА-Яа-яЁё\- ]{2,40}$")
 
 
 def valid_inn(inn: str) -> bool:

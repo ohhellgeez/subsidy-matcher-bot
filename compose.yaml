@@ -13,6 +13,7 @@ services:
     ports:
       - "${WEBHOOK_PORT:-8000}:8000"
     restart: unless-stopped
+    command: sh -c "alembic upgrade head && python database/seed.py && python -m src.main"
 
   db:
     image: postgres:15-alpine

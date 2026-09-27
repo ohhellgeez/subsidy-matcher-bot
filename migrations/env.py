@@ -22,6 +22,23 @@ from database.models import Base
 
 target_metadata = Base.metadata
 
+
+def _database_url() -> str:
+    """Собирает DSN из переменных окружения (см. compose.yaml / .env).
+
+    Перекрывает ``sqlalchemy.url`` из alembic.ini, чтобы креды БД не были
+    захардкожены и задавались единым образом для всех компонентов.
+    """
+    user = os.getenv("POSTGRES_USER", "myuser")
+    password = os.getenv("POSTGRES_PASSWORD", "mypassword")
+    host = os.getenv("POSTGRES_HOST", "db")
+    port = os.getenv("POSTGRES_PORT", "5432")
+    db = os.getenv("POSTGRES_DB", "max_db")
+    return f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db}"
+
+
+config.set_main_option("sqlalchemy.url", _database_url())
+
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")

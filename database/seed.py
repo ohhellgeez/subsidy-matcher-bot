@@ -4,7 +4,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from models import Region, Company, SupportMeasure, MeasureRequirement, Document
 
-DATABASE_URL = "postgresql+psycopg2://postgres:password@localhost:5432/MAX"
+# DSN собирается из переменных окружения (см. compose.yaml / .env), чтобы
+# не дублировать креды в коде. Значения по умолчанию совпадают с compose.yaml.
+DATABASE_URL = (
+    f"postgresql+psycopg2://{os.getenv('POSTGRES_USER', 'myuser')}:"
+    f"{os.getenv('POSTGRES_PASSWORD', 'mypassword')}"
+    f"@{os.getenv('POSTGRES_HOST', 'db')}:{os.getenv('POSTGRES_PORT', '5432')}"
+    f"/{os.getenv('POSTGRES_DB', 'max_db')}"
+)
 
 engine = create_engine(DATABASE_URL)
 

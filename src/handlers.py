@@ -52,8 +52,9 @@ class BotHandler:
         logger.info("Сообщение от %s: %r", user_id, text)
 
         session = self.store.get(user_id)
-        _advance(session, text=text, callback=None)
-        reply = _render(session)
+        reply = _advance(session, text=text, callback=None)
+        if not reply:
+            reply = _render(session)
         
         self.store.save(user_id, session)
         self._send_reply(user_id, reply)
@@ -67,19 +68,26 @@ class BotHandler:
         logger.info("Callback payload=%r user_id=%s", payload, user_id)
 
         session = self.store.get(user_id)
-        _advance(session, text=None, callback=payload)
-        reply = _render(session)
+        
+        # ВАЖНО: передаем payload в параметр callback, чтобы кнопки работали
+        reply = _advance(session, text=None, callback=payload)
+        if not reply:
+            reply = _render(session)
         
         self.store.save(user_id, session)
         self._send_reply(user_id, reply)
 
     def _send_reply(self, user_id: str, reply: Reply | None) -> None:
-        """Отправляет ответ, конвертируя наш внутренний Reply в формат кнопок API МАХ."""
         if not reply:
             return
             
         if reply.buttons:
-            rows = [[Button.callback(text, payload)] for text, payload in reply.buttons]
+            rows = []
+            for text, payload in reply.buttons:
+                if payload.startswith("http://") or payload.startswith("https://"):
+                    rows.append([Button.link(text, payload)])
+                else:
+                    rows.append([Button.callback(text, payload)])
             self.client.send_keyboard(user_id, reply.text, rows)
         else:
             self.client.send_text(user_id, reply.text)

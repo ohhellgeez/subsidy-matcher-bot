@@ -1,5 +1,6 @@
 ﻿from .db import get_session
 from ..database.models import SupportMeasure
+from datetime import datetime
 
 
 def _split(value: str | None) -> list[str]:
@@ -72,15 +73,31 @@ def match(query_profile: dict) -> list[dict]:
             if not _exist_term_ok(req.min_exist_term, query_profile.get("exist_term_months")):
                 continue
 
+            # --- СКОРИНГ ---
+            score = 100
+            
+            # 1. Бонус за выгоду (макс 50 баллов)
+            amount = m.support_amount_till or m.support_amount_from or 0
+            score += min(50, amount // 100000)
+            
+            # 2. Бонус за срочность: горящие дедлайны
+            if m.end_date:
+                days_left = (m.end_date - datetime.now()).days
+                if 0 <= days_left <= 30:
+                    score += 30
+
             result.append({
                 "id": m.id,
                 "name": m.name,
-                "score": 100,  # Р—РђР“Р›РЈРЁРљРђ: СЂРµР°Р»СЊРЅС‹Р№ РїСЂРѕС†РµРЅС‚ СЃРѕРІРїР°РґРµРЅРёСЏ РїРѕРґРєР»СЋС‡РёС‚ Р РѕР»СЊ 3
+                "score": score,
                 "short_description": m.short_description,
                 "support_amount_from": m.support_amount_from,
                 "support_amount_till": m.support_amount_till,
                 "end_date": m.end_date,
                 "recipient_category": m.recipient_category,
-                "link": m.documents[0].link if m.documents else "вЂ”",
+                "link": m.documents[0].link if m.documents else "—",
             })
+            
+        # Сортируем от самых высоких баллов к самым низким
+        result.sort(key=lambda x: x["score"], reverse=True)
         return result

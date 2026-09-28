@@ -1,6 +1,6 @@
 [
     {
-        "inn": "7701234567",
+        "inn": "7736050003",
         "name": "ООО Инновации Плюс",
         "opf": "legal",
         "okwed": "62.01",
@@ -9,7 +9,7 @@
         "region_okato": "45000000000"
     },
     {
-        "inn": "222100112233",
+        "inn": "500100732259",
         "name": "ИП Иванов А.А.",
         "opf": "individual",
         "okwed": "01.11",
@@ -18,12 +18,21 @@
         "region_okato": "01000000000"
     },
     {
-        "inn": "165511223344",
+        "inn": "165501234514",
         "name": "Самозанятая Петрова В.И.",
         "opf": "self",
         "okwed": "74.20",
         "employees_count": 0,
         "exist_term_months": 5,
         "region_okato": "92000000000"
+    },
+    {
+        "inn": "7801392271",
+        "name": "ООО ТоргПром",
+        "opf": "legal",
+        "okwed": "47.11",
+        "employees_count": 5,
+        "exist_term_months": 12,
+        "region_okato": "40000000000"
     }
 ]

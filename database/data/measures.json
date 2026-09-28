@@ -3,12 +3,12 @@
         "id": "meas-001",
         "name": "Грант на развитие ИТ-проектов",
         "preview": "До 5 млн рублей на разработку ПО",
-        "short_description": "Федеральная поддержка аккредитованных ИТ-компаний.",
+        "short_description": "Федеральная поддержка аккредитованных ИТ-компаний (включая услуги).",
         "support_amount_from": 1000000,
         "support_amount_till": 5000000,
         "requirements": {
             "opf": "legal",
-            "okwed": "62.01, 62.02",
+            "okwed": "62.01, 62.02, 62",
             "min_empl_amount": 5,
             "max_empl_amount": 100,
             "min_exist_term": 12,
@@ -16,7 +16,7 @@
         },
         "documents": [
             {
-                "link": "https://msp.ru/docs/it_rules.pdf",
+                "link": "https://мойбизнес.рф/",
                 "type": "pdf",
                 "size": 2500.5,
                 "name": "Положение о гранте"
@@ -26,22 +26,85 @@
     {
         "id": "meas-002",
         "name": "Субсидия на покупку сельхозтехники",
-        "preview": "Компенсация до 50% затрат",
+        "preview": "Компенсация до 2 млн рублей",
         "short_description": "Региональная мера поддержки аграриев Алтайского края.",
         "support_amount_from": 500000,
         "support_amount_till": 2000000,
         "requirements": {
-            "opf": "legal, individual",
-            "okwed": "01.11, 01.13",
+            "opf": "legal, individual, physical",
+            "okwed": "01",
             "min_exist_term": 24,
             "okato": "01000000000"
         },
         "documents": [
             {
-                "link": "https://msp.ru/docs/agro_altai.docx",
+                "link": "https://www.gosuslugi.ru/",
                 "type": "docx",
                 "size": 1024.0,
-                "name": "Форма заявки на субсидию"
+                "name": "Форма заявки"
+            }
+        ]
+    },
+    {
+        "id": "meas-003",
+        "name": "Субсидия на продвижение маркетплейсов",
+        "preview": "Компенсация затрат на рекламу до 300 тыс. руб.",
+        "short_description": "Московская мера поддержки для малого бизнеса, ИП и самозанятых в сфере торговли и услуг.",
+        "support_amount_from": 50000,
+        "support_amount_till": 300000,
+        "requirements": {
+            "opf": "legal, individual, self",
+            "okwed": "47, 62, 74",
+            "okato": "45000000000"
+        },
+        "documents": [
+            {
+                "link": "https://мойбизнес.рф/",
+                "type": "pdf",
+                "size": 850.0,
+                "name": "Условия программы"
+            }
+        ]
+    },
+    {
+        "id": "meas-004",
+        "name": "Льготный займ 'Промышленник'",
+        "preview": "Кредит до 20 млн под 3%",
+        "short_description": "Региональная поддержка производственных предприятий Санкт-Петербурга.",
+        "support_amount_from": 5000000,
+        "support_amount_till": 20000000,
+        "requirements": {
+            "opf": "legal",
+            "okwed": "10, 11, 28",
+            "min_empl_amount": 10,
+            "okato": "40000000000"
+        },
+        "documents": [
+            {
+                "link": "https://www.gosuslugi.ru/",
+                "type": "pdf",
+                "size": 1200.0,
+                "name": "Требования"
+            }
+        ]
+    },
+    {
+        "id": "meas-005",
+        "name": "Федеральный микрозайм для Самозанятых",
+        "preview": "До 500 000 рублей на любые бизнес-цели",
+        "short_description": "Доступно самозанятым во всех регионах РФ без ограничений по сроку ведения бизнеса.",
+        "support_amount_from": 50000,
+        "support_amount_till": 500000,
+        "requirements": {
+            "opf": "self, selfindividual",
+            "okato": "0"
+        },
+        "documents": [
+            {
+                "link": "https://мойбизнес.рф/knowledge/samozanyatye",
+                "type": "pdf",
+                "size": 500.0,
+                "name": "Памятка самозанятому"
             }
         ]
     }

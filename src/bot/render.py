@@ -43,12 +43,10 @@ def ask_name_reply(error: str | None = None) -> Reply:
     return Reply(text, [("Пропустить", "skip_name")] + NAV)
 
 
-def ask_inn_reply(name: str | None = None, error: str | None = None) -> Reply:
+def ask_inn_reply(error: str | None = None) -> Reply:
     head = f"{error}\n\n" if error else ""
-    greet = f"Приятно познакомиться, {name}!\n" if name and not error else ""
-    text = f"{head}{greet}Введите ваш ИНН, и я подберу актуальные меры поддержки автоматически."
-    return Reply(text, [("Ввести вручную", "manual")] + NAV)
-
+    text = f"{head}Введите ваш ИНН, и я подберу актуальные меры поддержки автоматически."
+    return Reply(text, [("Подобрать по анкете", "manual")] + NAV)
 
 def inn_not_found_reply() -> Reply:
     text = (
@@ -65,27 +63,24 @@ def prompt_reply(step: dict, error: str | None = None) -> Reply:
     return Reply(text, buttons)
 
 
-def summary_reply(count: int, name: str | None = None) -> Reply:
-    who = f"{name}, " if name else ""
+def summary_reply(count: int, company_name: str | None = None) -> Reply:
+    prefix = f"🏢 Организация: {company_name}\n" if company_name else ""
     if count == 0:
-        return Reply(f"{who}анализ завершён. Подходящих мер поддержки не нашлось.", NAV)
-    text = f"{who}подходящие меры поддержки найдены: {count}."
+        return Reply(f"{prefix}Анализ завершён. Подходящих мер поддержки не нашлось.", NAV)
+    text = f"{prefix}✅ Анализ завершён! Найдено подходящих мер поддержки: {count}."
     return Reply(text, [("Показать результаты", "show")] + NAV)
 
 
 def results_list_reply(matches: list[dict], name: str | None = None) -> Reply:
     if not matches:
-        text = (
-            "К сожалению, подходящих мер не нашлось.\n"
-            "Попробуйте изменить регион или сферу деятельности."
-        )
-        return Reply(text, NAV)
-    greet = f"{name}, вот " if name else ""
-    lines = [f"{greet}меры поддержки для вас:\n"]
+        return Reply("К сожалению, подходящих мер не нашлось.", NAV)
+    
+    lines = ["Ваши меры поддержки:\n"]
     buttons = []
     for i, m in enumerate(matches[:5], 1):
-        lines.append(f"{i}. {m['name']} (совпадение {m['score']}%)")
-        buttons.append((f"{i}. Подробнее", f"details:{m['id']}"))
+        lines.append(f"{i}. {m['name']} (рейтинг: {m['score']})")
+        buttons.append((f"🔎 Изучить меру №{i}", f"details:{m['id']}"))
+        
     buttons += [("Скачать подборку", "download")] + NAV
     return Reply("\n".join(lines), buttons)
 
@@ -99,9 +94,22 @@ def details_reply(m: dict) -> Reply:
         f"Кто может получить: {_format_recipients(m)}\n\n"
         f"Ссылка: {m['link']}"
     )
-    buttons = [("Открыть ссылку", f"link:{m['id']}"), ("← К списку", "back_to_list")] + NAV
+    buttons = [("Открыть ссылку", m['link'])] + NAV
     return Reply(text, buttons)
 
+
+def download_reply(matches: list[dict]) -> Reply:
+    if not matches:
+        return Reply("Список пуст.", NAV)
+        
+    lines = ["📄 Ваша подборка мер поддержки:\n"]
+    for i, m in enumerate(matches, 1):
+        lines.append(f"{i}. {m['name']}")
+        lines.append(f"Размер: {_format_amount(m)}")
+        lines.append(f"Ссылка: {m['link']}\n")
+        
+    text = "\n".join(lines) + "Вы можете скопировать или переслать это сообщение."
+    return Reply(text, NAV)
 
 def after_link_reply() -> Reply:
     text = "Хотите подобрать ещё меры или изменить параметры?"

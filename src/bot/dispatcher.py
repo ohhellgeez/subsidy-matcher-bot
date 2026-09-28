@@ -5,7 +5,7 @@ from .matcher import match
 from .render import (
     NAV, after_link_reply, ask_inn_reply, ask_name_reply, change_menu_reply,
     details_reply, inn_not_found_reply, prompt_reply, results_list_reply,
-    summary_reply, welcome_reply,
+    summary_reply, welcome_reply, download_reply
 )
 from .steps import NEXT_STATE, STEP_BY_FIELD, STEP_BY_STATE, parse_value
 from .storage import SessionStore, new_session
@@ -41,11 +41,13 @@ def _advance(session: dict, text: str | None, callback: str | None) -> Reply | N
     if callback == "back":
         if session["history"]:
             session["state"] = session["history"].pop()
+            if session["state"] == "PROCESSING" and session["history"]:
+                session["state"] = session["history"].pop()
         return None
 
     if state == "START":
         if callback == "begin":
-            _goto(session, "ASK_NAME")
+            _goto(session, "ASK_INN")
         return None
 
     if state == "ASK_NAME":
@@ -67,8 +69,8 @@ def _advance(session: dict, text: str | None, callback: str | None) -> Reply | N
             return None
         if text:
             if not valid_inn(text):
-                return ask_inn_reply(session["data"].get("name"),
-                                      error="ИНН должен содержать 10 или 12 цифр.")
+                # Убрали передачу session["data"].get("name")
+                return ask_inn_reply(error="ИНН должен содержать 10 или 12 цифр.")
             found = lookup_inn(text)
             if not found:
                 return inn_not_found_reply()
@@ -76,9 +78,7 @@ def _advance(session: dict, text: str | None, callback: str | None) -> Reply | N
             session["data"].update(found)
             _goto(session, "PROCESSING")
             return None
-        return ask_inn_reply(session["data"].get("name"),
-                              error="Отправьте ИНН текстом или нажмите «Ввести вручную».")
-
+        return ask_inn_reply(error="Отправьте ИНН текстом или нажмите «Ввести вручную».")
     if state in STEP_BY_STATE:
         step = STEP_BY_STATE[state]
         value = None
@@ -107,7 +107,7 @@ def _advance(session: dict, text: str | None, callback: str | None) -> Reply | N
             _goto(session, "DETAILS")
             return None
         if callback == "download":
-            return Reply("Скачивание подборки в виде файла скоро будет доступно.", NAV)
+            return download_reply(session.get("matches", []))
         return None
 
     if state == "DETAILS":
@@ -136,14 +136,41 @@ def _advance(session: dict, text: str | None, callback: str | None) -> Reply | N
 
 def _render(session: dict) -> Reply:
     state = session["state"]
-    name = session["data"].get("name")
+    company_name = session["data"].get("company_name")
 
     if state == "START":
         return welcome_reply()
     if state == "ASK_NAME":
         return ask_name_reply()
     if state == "ASK_INN":
-        return ask_inn_reply(name)
+        return ask_inn_reply()
+        
     if state == "PROCESSING":
         query_profile = build_query_profile(session["data"])
         matches = match(query_profile)
+        session["matches"] = matches
+        _goto(session, "SUMMARY")
+        return summary_reply(len(matches), company_name)
+        
+    if state in STEP_BY_STATE:
+        step = STEP_BY_STATE[state]
+        return prompt_reply(step)
+        
+    if state == "SUMMARY":
+        return summary_reply(len(session.get("matches", [])), company_name)
+    if state == "RESULTS_LIST":
+        return results_list_reply(session.get("matches", []))
+    
+    if state == "DETAILS":
+        m = _find_match(session)
+        if m:
+            return details_reply(m)
+        return Reply("Мера поддержки не найдена.", NAV)
+        
+    if state == "AFTER_LINK":
+        return after_link_reply()
+        
+    if state == "CHANGE_MENU":
+        return change_menu_reply()
+
+    return Reply("Произошла системная ошибка. Пожалуйста, начните заново.", NAV)

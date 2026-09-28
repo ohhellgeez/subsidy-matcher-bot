@@ -12,6 +12,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src/ ./src/
 COPY certs/mincifry_ca.pem ./certs/mincifry_ca.pem
+COPY alembic.ini .
+COPY migrations/ ./migrations/
+COPY database/ ./database/
 
 # Платформа МАХ использует сертификаты Минцифры — добавляем их в CA-бандл
 # certifi, чтобы requests доверял platform-api2.max.ru без доп. настроек.

@@ -1,4 +1,4 @@
-﻿import difflib
+import difflib
 import re
 
 from .catalog import REGION_NAMES

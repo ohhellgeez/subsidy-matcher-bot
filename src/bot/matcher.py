@@ -1,4 +1,4 @@
-﻿from .db import get_session
+from .db import get_session
 from database.models import SupportMeasure
 from datetime import datetime
 

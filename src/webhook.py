@@ -1,10 +1,3 @@
-"""Webhook-сервер (FastAPI) для production-режима доставки событий.
-
-Используется, когда ``BOT_MODE=webhook``. Принимает HTTPS POST-запросы
-с объектом ``Update``, проверяет секрет в заголовке ``X-Max-Bot-Api-Secret``
-и передаёт событие обработчику.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -58,7 +51,6 @@ def create_app(settings: Settings) -> FastAPI:
         try:
             handler.handle(update)
         except Exception:
-            # Отвечаем 200, чтобы МАХ не повторял доставку; ошибка логируется.
             logger.exception("Ошибка обработки события %s", update.update_type)
         return Response(status_code=200)
 

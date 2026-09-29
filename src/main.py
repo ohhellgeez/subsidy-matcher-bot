@@ -1,12 +1,3 @@
-"""Точка входа бота.
-
-Выбор режима доставки управляется переменной окружения ``BOT_MODE``:
-- ``polling`` (по умолчанию) — Long Polling через ``GET /updates``;
-- ``webhook`` — HTTP-сервер (FastAPI) + подписка ``POST /subscriptions``.
-
-Запуск: ``python -m src.main`` (из корня проекта).
-"""
-
 from __future__ import annotations
 
 import logging
@@ -57,7 +48,6 @@ def run_polling(settings: Settings) -> None:
                 except MaxAuthError:
                     raise
                 except Exception:
-                    # Падение одного события не должно останавливать бота.
                     logger.exception("Ошибка обработки события %s", update.update_type)
         except MaxAuthError as exc:
             logger.error("Токен недействителен — остановка. %s", exc)

@@ -69,7 +69,6 @@ class BotHandler:
 
         session = self.store.get(user_id)
         
-        # ВАЖНО: передаем payload в параметр callback, чтобы кнопки работали
         reply = _advance(session, text=None, callback=payload)
         if not reply:
             reply = _render(session)

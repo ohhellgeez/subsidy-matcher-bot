@@ -69,7 +69,6 @@ def _advance(session: dict, text: str | None, callback: str | None) -> Reply | N
             return None
         if text:
             if not valid_inn(text):
-                # Убрали передачу session["data"].get("name")
                 return ask_inn_reply(error="ИНН должен содержать 10 или 12 цифр.")
             found = lookup_inn(text)
             if not found:

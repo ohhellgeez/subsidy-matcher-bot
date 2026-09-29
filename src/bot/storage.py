@@ -25,7 +25,7 @@ class SessionStore:
             self._r = redis.Redis.from_url(_settings.redis_url, decode_responses=True)
             self._r.ping()
         except Exception:
-            self._r = None  # Redis недоступен — работаем в памяти процесса
+            self._r = None  
         self._mem: dict[str, dict] = {}
 
     def get(self, user_id: str) -> dict:

@@ -14,20 +14,23 @@ class Base(DeclarativeBase):
 class SupportMeasure(Base):
     __tablename__ = "support_measures"
 
-    id: Mapped[str] = mapped_column(String, primary_key=True, comment="Внутренний ID меры поддержки")
-    id_form: Mapped[Optional[str]] = mapped_column(String, default='0', server_default='0', comment="ID формы предоставления (0 если универсальная)")
-    active: Mapped[int] = mapped_column(Integer, default=1, server_default='1', comment="1 - активна, 0 - убрать с платформы")
-    name: Mapped[str] = mapped_column(String(150), comment="Наименование без формулировок НПА")
-    preview: Mapped[Optional[str]] = mapped_column(String(250), comment="Краткий анонс для списка")
-    short_description: Mapped[Optional[str]] = mapped_column(Text, comment="Краткое описание для карточки")
-    full_description: Mapped[Optional[str]] = mapped_column(Text, comment="Полное описание (с HTML тегами)")
-    start_date: Mapped[Optional[datetime]] = mapped_column(DateTime, comment="Дата начала приема заявок (ISO 8601)")
-    end_date: Mapped[Optional[datetime]] = mapped_column(DateTime, comment="Дата окончания приема заявок (ISO 8601)")
-    support_type: Mapped[Optional[int]] = mapped_column(Integer, comment="Форма поддержки (ID из справочника)")
-    support_count: Mapped[Optional[int]] = mapped_column(Integer, comment="Лимит оказания меры на заявителя")
-    support_amount_from: Mapped[Optional[int]] = mapped_column(Integer, comment="Размер поддержки ОТ (руб)")
-    support_amount_till: Mapped[Optional[int]] = mapped_column(Integer, comment="Размер поддержки ДО (руб)")
-    recipient_category: Mapped[Optional[str]] = mapped_column(String, comment="Категории: micro, small, medium, other (массив)")
+    id: Mapped[str] = mapped_column(String, primary_key=True, comment="Внутренний ID")
+    id_form: Mapped[Optional[str]] = mapped_column(String, default='0', server_default='0')
+    active: Mapped[int] = mapped_column(Integer, default=1, server_default='1')
+    name: Mapped[str] = mapped_column(String(150))
+    preview: Mapped[Optional[str]] = mapped_column(String(250))
+    short_description: Mapped[Optional[str]] = mapped_column(Text)
+    full_description: Mapped[Optional[str]] = mapped_column(Text)
+    start_date: Mapped[Optional[datetime]] = mapped_column(DateTime)
+    end_date: Mapped[Optional[datetime]] = mapped_column(DateTime)
+    support_type: Mapped[Optional[int]] = mapped_column(Integer)
+    support_count: Mapped[Optional[int]] = mapped_column(Integer)
+    support_amount_from: Mapped[Optional[int]] = mapped_column(Integer)
+    support_amount_till: Mapped[Optional[int]] = mapped_column(Integer)
+    recipient_category: Mapped[Optional[str]] = mapped_column(String, comment="micro, small, medium")
+    recipient_description: Mapped[Optional[str]] = mapped_column(Text, comment="Подробное текстовое описание получателей")
+    source_name: Mapped[Optional[str]] = mapped_column(String(100), comment="Название источника (МСП.РФ, ФРП, Минсельхоз)")
+    source_url: Mapped[Optional[str]] = mapped_column(String, comment="Прямая ссылка на официальную страницу меры")
 
     requirements: Mapped["MeasureRequirement"] = relationship(back_populates="measure", cascade="all, delete")
     documents: Mapped[List["Document"]] = relationship(back_populates="measure", cascade="all, delete")
@@ -35,12 +38,7 @@ class SupportMeasure(Base):
     __table_args__ = (
         CheckConstraint("active IN (0, 1)", name="chk_measure_active"),
         CheckConstraint("end_date >= start_date", name="chk_measure_dates"),
-        CheckConstraint(
-            "support_amount_from >= 0 AND support_amount_till >= 0 AND support_amount_till >= support_amount_from",
-            name="chk_measure_amounts"
-        ),
-        CheckConstraint("support_count >= 0", name="chk_measure_count"),
-        CheckConstraint("trim(name) <> ''", name="chk_measure_name_not_empty"),
+        CheckConstraint("support_amount_from >= 0 AND support_amount_till >= 0", name="chk_measure_amounts"),
     )
 
 

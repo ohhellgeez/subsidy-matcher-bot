@@ -10,7 +10,7 @@
     },
     {
         "inn": "500100732259",
-        "name": "ИП Иванов А.А.",
+        "name": "ИП Иванов А.А. (КФХ)",
         "opf": "individual",
         "okwed": "01.11",
         "employees_count": 3,
@@ -28,11 +28,11 @@
     },
     {
         "inn": "7801392271",
-        "name": "ООО ТоргПром",
+        "name": "ООО Завод ПромМаш",
         "opf": "legal",
-        "okwed": "47.11",
-        "employees_count": 5,
-        "exist_term_months": 12,
+        "okwed": "28.20",
+        "employees_count": 55,
+        "exist_term_months": 48,
         "region_okato": "40000000000"
     }
 ]

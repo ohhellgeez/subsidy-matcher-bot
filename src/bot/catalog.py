@@ -2,7 +2,7 @@ OPF_MAP = {
     "ИП": "individual",
     "ООО": "legal",
     "Самозанятый": "self",
-    "Фермерское хозяйство": "physical",
+    "КФХ": "physical", 
 }
 
 INDUSTRY_OKWED_PREFIX = {

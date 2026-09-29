@@ -1,111 +1,103 @@
 [
-    {
-        "id": "meas-001",
-        "name": "Грант на развитие ИТ-проектов",
-        "preview": "До 5 млн рублей на разработку ПО",
-        "short_description": "Федеральная поддержка аккредитованных ИТ-компаний (включая услуги).",
-        "support_amount_from": 1000000,
-        "support_amount_till": 5000000,
-        "requirements": {
-            "opf": "legal",
-            "okwed": "62.01, 62.02, 62",
-            "min_empl_amount": 5,
-            "max_empl_amount": 100,
-            "min_exist_term": 12,
-            "okato": "0"
-        },
-        "documents": [
-            {
-                "link": "https://мойбизнес.рф/",
-                "type": "pdf",
-                "size": 2500.5,
-                "name": "Положение о гранте"
-            }
-        ]
-    },
-    {
-        "id": "meas-002",
-        "name": "Субсидия на покупку сельхозтехники",
-        "preview": "Компенсация до 2 млн рублей",
-        "short_description": "Региональная мера поддержки аграриев Алтайского края.",
-        "support_amount_from": 500000,
-        "support_amount_till": 2000000,
-        "requirements": {
-            "opf": "legal, individual, physical",
-            "okwed": "01",
-            "min_exist_term": 24,
-            "okato": "01000000000"
-        },
-        "documents": [
-            {
-                "link": "https://www.gosuslugi.ru/",
-                "type": "docx",
-                "size": 1024.0,
-                "name": "Форма заявки"
-            }
-        ]
-    },
-    {
-        "id": "meas-003",
-        "name": "Субсидия на продвижение маркетплейсов",
-        "preview": "Компенсация затрат на рекламу до 300 тыс. руб.",
-        "short_description": "Московская мера поддержки для малого бизнеса, ИП и самозанятых в сфере торговли и услуг.",
-        "support_amount_from": 50000,
-        "support_amount_till": 300000,
-        "requirements": {
-            "opf": "legal, individual, self",
-            "okwed": "47, 62, 74",
-            "okato": "45000000000"
-        },
-        "documents": [
-            {
-                "link": "https://мойбизнес.рф/",
-                "type": "pdf",
-                "size": 850.0,
-                "name": "Условия программы"
-            }
-        ]
-    },
-    {
-        "id": "meas-004",
-        "name": "Льготный займ 'Промышленник'",
-        "preview": "Кредит до 20 млн под 3%",
-        "short_description": "Региональная поддержка производственных предприятий Санкт-Петербурга.",
-        "support_amount_from": 5000000,
-        "support_amount_till": 20000000,
-        "requirements": {
-            "opf": "legal",
-            "okwed": "10, 11, 28",
-            "min_empl_amount": 10,
-            "okato": "40000000000"
-        },
-        "documents": [
-            {
-                "link": "https://www.gosuslugi.ru/",
-                "type": "pdf",
-                "size": 1200.0,
-                "name": "Требования"
-            }
-        ]
-    },
-    {
-        "id": "meas-005",
-        "name": "Федеральный микрозайм для Самозанятых",
-        "preview": "До 500 000 рублей на любые бизнес-цели",
-        "short_description": "Доступно самозанятым во всех регионах РФ без ограничений по сроку ведения бизнеса.",
-        "support_amount_from": 50000,
-        "support_amount_till": 500000,
-        "requirements": {
-            "opf": "self, selfindividual",
-            "okato": "0"
-        },
-        "documents": [
-            {
-                "link": "https://мойбизнес.рф/knowledge/samozanyatye",
-                "type": "pdf",
-                "size": 500.0,
-                "name": "Памятка самозанятому"
-            }
-        ]
+  {
+    "id": "msp-psk-subsidizing",
+    "name": "Программа стимулирования кредитования МСП (ПСК)",
+    "preview": "Инвестиционный кредит от 25 млн до 2 млрд руб. (Ключевая ставка ЦБ - 3,5%)",
+    "short_description": "Уполномоченным на кредитование банкам компенсируются недополученные доходы по кредитам на инвестиционные цели.",
+    "support_amount_from": 25000000,
+    "support_amount_till": 2000000000,
+    "source_name": "Корпорация МСП / Минэкономразвития",
+    "source_url": "https://corpmsp.ru/to-business/finansirovanie-lgotnye-programmy-kreditovaniya/psk_subsidizing/",
+    "recipient_description": "МСП из приоритетных отраслей (креативные индустрии, обрабатывающее производство, гостиницы и общепит), МТК и участники программы производительности труда.",
+    "end_date": null,
+    "requirements": {
+      "opf": "individual, legal",
+      "okato": "0"
     }
+  },
+  {
+    "id": "msp-machine-promo",
+    "name": "Льготный кредит «Станки и роботы»",
+    "preview": "Льготная ставка от 5% на сумму до 200 млн ₽",
+    "short_description": "Льготное финансирование для развития и модернизации производства, поддержки текущей деятельности или запуска новых линеек продукции.",
+    "support_amount_from": 30000000,
+    "support_amount_till": 200000000,
+    "source_name": "Корпорация МСП / Минпромторг России",
+    "source_url": "https://xn--l1agf.xn--p1ai/services/machine/promo/",
+    "recipient_description": "Производители, продукция которых включена в Реестр промышленной продукции Минпромторга России, локализованные на территории РФ.",
+    "end_date": null,
+    "requirements": {
+      "opf": "individual, legal",
+      "okwed": "28, 29, 30",
+      "min_exist_term": 6,
+      "okato": "0"
+    }
+  },
+  {
+    "id": "fasie-start-prom-3",
+    "name": "Грант «Старт-Пром-1» (очередь 3)",
+    "preview": "Грант до 5 млн рублей на выполнение НИОКР",
+    "short_description": "Грантовая поддержка проектов малых предприятий по проведению научно-исследовательских и опытно-конструкторских работ в гражданских отраслях промышленности.",
+    "support_amount_from": 1000000,
+    "support_amount_till": 5000000,
+    "source_name": "Фонд содействия инновациям",
+    "source_url": "https://fasie.ru/press/fund/start-prom-3/",
+    "recipient_description": "Физические лица и малые/микропредприятия (до 3-х лет с даты регистрации). Требуется команда от 3 человек.",
+    "end_date": "2026-05-12T10:00:00",
+    "requirements": {
+      "opf": "individual, legal, physical",
+      "okato": "0"
+    }
+  },
+  {
+    "id": "veb-it-grants",
+    "name": "Гранты на внедрение российских ИТ-решений",
+    "preview": "Финансирование доработки и внедрения отечественного ПО",
+    "short_description": "Субсидия на обеспечение доработки и внедрения российских решений в сфере ИТ при поддержке Российского фонда развития информационных технологий.",
+    "support_amount_from": 500000,
+    "support_amount_till": 15000000,
+    "source_name": "Группа ВЭБ.РФ / РФРИТ",
+    "source_url": "https://мсп.рф/",
+    "recipient_description": "Компании, реализующие проекты по доработке и внедрению российских решений в сфере информационных технологий.",
+    "end_date": "2026-10-19T23:59:59",
+    "requirements": {
+      "opf": "legal, individual",
+      "okwed": "62, 63",
+      "okato": "0"
+    }
+  },
+  {
+    "id": "agro-insurance-3",
+    "name": "Субсидии на сельскохозяйственное страхование",
+    "preview": "Компенсация страховых премий на случай гибели урожая",
+    "short_description": "Субсидии на уплату страховых премий, начисленных по договорам сельскохозяйственного страхования на случай утраты (гибели) урожая.",
+    "support_amount_from": null,
+    "support_amount_till": null,
+    "source_name": "Минсельхоз РФ / МСП.РФ",
+    "source_url": "https://мсп.рф/",
+    "recipient_description": "Сельскохозяйственные товаропроизводители.",
+    "end_date": "2026-10-06T23:59:59",
+    "requirements": {
+      "opf": "individual, legal, physical",
+      "okwed": "01",
+      "okato": "0"
+    }
+  },
+  {
+    "id": "agro-machine-makers",
+    "name": "Субсидии производителям сельскохозяйственной техники",
+    "preview": "Поддержка производителей самоходной сельхозтехники",
+    "short_description": "Дополнительный отбор для производителей прочей самоходной сельскохозяйственной техники (пункт 3 Раздела 15.2 Решения).",
+    "support_amount_from": null,
+    "support_amount_till": null,
+    "source_name": "Минпромторг РФ / МСП.РФ",
+    "source_url": "https://мсп.рф/",
+    "recipient_description": "Юридические лица, являющиеся производителями сельскохозяйственной техники на территории РФ.",
+    "end_date": "2026-10-07T23:59:59",
+    "requirements": {
+      "opf": "legal",
+      "okwed": "28, 29",
+      "okato": "0"
+    }
+  }
 ]

@@ -90,8 +90,11 @@ def match(query_profile: dict) -> list[dict]:
                 "short_description": m.short_description,
                 "support_amount_from": m.support_amount_from,
                 "support_amount_till": m.support_amount_till,
-                "end_date": m.end_date,
+                "end_date": m.end_date.isoformat() if m.end_date else None,
                 "recipient_category": m.recipient_category,
+                "recipient_description": getattr(m, "recipient_description", None),
+                "source_name": getattr(m, "source_name", None),
+                "source_url": getattr(m, "source_url", None),
                 "link": m.documents[0].link if m.documents else "—",
             })
             
